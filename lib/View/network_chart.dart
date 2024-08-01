@@ -104,12 +104,14 @@ class _NetworkChartState extends State<NetworkChart> {
       "series": [{
         "name": "Network In",
         "data": ${jsonEncode(networkInData)},
+        "color": "#33a29d",
         "animation": {
           "duration": 2000
         }
       }, {
         "name": "Network Out",
         "data": ${jsonEncode(networkOutData)},
+        "color": "#544fc5",
         "animation": {
           "duration": 2000
         }

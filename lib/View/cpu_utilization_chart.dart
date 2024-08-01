@@ -72,7 +72,7 @@ class _CpuUtilizationChartState extends State<CpuUtilizationChart> {
         "plotLines": [{
           "value": 0,
           "width": 1,
-          "color": "#808080"
+          "color": "#33a29d",
         }]
       },
       "tooltip": {
@@ -90,7 +90,8 @@ class _CpuUtilizationChartState extends State<CpuUtilizationChart> {
       },
       "series": [{
         "name": "CPU Usage",
-        "data": ${jsonEncode(cpuData)}
+        "data": ${jsonEncode(cpuData)},
+        'color': '#33a29d',
       }],
       "plotOptions": {
         "series": {
