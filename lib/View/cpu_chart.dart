@@ -46,16 +46,16 @@ class _CpuChartState extends State<CpuChart> {
     Color blockColor = theme.cardColor;
     Color textColor = theme.textTheme.bodyLarge?.color ?? Colors.black;
 
-    // Renkleri hex formatına dönüştür
-    String backgroundColorHex = _colorToHex(backgroundColor);
-    String blockColorHex = _colorToHex(blockColor);
-    String textColorHex = _colorToHex(textColor);
+    // Renkleri JSON formatına dönüştür
+    String backgroundColorJson = _colorToJson(backgroundColor);
+    String blockColorJson = _colorToJson(blockColor);
+    String textColorJson = _colorToJson(textColor);
 
     String chartData = '''
     {
       "chart": {
         "type": "solidgauge",
-        "backgroundColor": "$backgroundColorHex",
+        "backgroundColor": "$backgroundColorJson",
         "plotShadow": false
       },
       "title": {
@@ -66,8 +66,10 @@ class _CpuChartState extends State<CpuChart> {
         "verticalAlign": "middle",
         "y": 30,
         "style": {
-          "fontSize": "20px",
-          "color": "$textColorHex"
+          "color": "$textColorJson",
+          "font-size":"14px",
+          "opacity":"0.4",
+          "text-align": "center"
         }
       },
       "pane": {
@@ -76,8 +78,8 @@ class _CpuChartState extends State<CpuChart> {
         "startAngle": 0,
         "endAngle": 360,
         "background": [{
-          "backgroundColor": "$blockColorHex",
-          "innerRadius": "60%",
+          "backgroundColor": "$blockColorJson",
+          "innerRadius": "80%",
           "outerRadius": "100%",
           "shape": "arc"
         }]
@@ -91,10 +93,10 @@ class _CpuChartState extends State<CpuChart> {
         "lineWidth": 0,
         "tickPositions": [],
         "stops": [
-            [0.1, '#33A29D'], // green
-            [0.5, '#DDDF0D'], // yellow
-            [0.9, '#DF5353'], // red
-        ],
+          [0.1, '#33A29D'],
+          [0.5, '#DDDF0D'],
+          [0.9, '#DF5353']
+        ]
       },
       "plotOptions": {
         "solidgauge": {
@@ -105,8 +107,8 @@ class _CpuChartState extends State<CpuChart> {
             "format": "<div style='text-align:center'><span style='font-size:22px;'>{y}% </span></div>"
           },
           "linecap": "round",
-          "innerRadius": "60%", // İç yarıçap
-          "outerRadius": "100%"  // Dış yarıçap
+          "innerRadius": "80%",
+          "outerRadius": "100%"
         }
       },
       "series": [{
@@ -131,8 +133,8 @@ class _CpuChartState extends State<CpuChart> {
     );
   }
 
-  // Helper function to convert Color to hex code
-  String _colorToHex(Color color) {
-    return '#${color.value.toRadixString(16).padLeft(8, '0').toUpperCase()}';
+  // Helper function to convert Color to JSON string format
+  String _colorToJson(Color color) {
+    return 'rgba(${color.red},${color.green},${color.blue},${color.opacity})';
   }
 }

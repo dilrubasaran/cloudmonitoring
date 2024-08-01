@@ -1,9 +1,8 @@
 import 'dart:async';
-import 'dart:math';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:high_chart/high_chart.dart';
-
+import 'package:http/http.dart' as http;
 import '../consts_box.dart';
 
 class DiskUsageChart extends StatefulWidget {
@@ -14,17 +13,13 @@ class DiskUsageChart extends StatefulWidget {
 }
 
 class _DiskUsageChartState extends State<DiskUsageChart> {
-  Map<String, int> diskData = {
-    'MediaGB': 0,
-    'RootGB': 0,
-    'Documents': 0,
-    'Downloads': 0,
-  };
+  String chartData = '';
   Timer? timer;
 
   @override
   void initState() {
     super.initState();
+    fetchDiskData();
     startTimer();
   }
 
@@ -36,64 +31,121 @@ class _DiskUsageChartState extends State<DiskUsageChart> {
 
   void startTimer() {
     const duration = Duration(seconds: 2);
-    timer = Timer.periodic(duration, (Timer t) {
-      var random = Random();
-
-      setState(() {
-        diskData.update('MediaGB', (value) => random.nextInt(100)); //rgb(214, 214, 214)
-        diskData.update('RootGB', (value) => random.nextInt(100));
-        diskData.update('Documents', (value) => random.nextInt(100));
-        diskData.update('Downloads', (value) => random.nextInt(100));
-      });
-    });
+    timer = Timer.periodic(duration, (Timer t) => fetchDiskData());
   }
+
+  Future<void> fetchDiskData() async {
+    final url = 'https://demo-live-data.highcharts.com/instances.json';
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      final currentInstance = data[0]; // Varsayılan olarak ilk örneği kullanıyoruz
+      final diskSpace = currentInstance['DiskSpace']['RootDisk'];
+
+      // Verileri ve temayı güncelle
+      final theme = Theme.of(context);
+      final textColor = theme.textTheme.bodyLarge?.color ?? Colors.black;
+      final blockBackgroundColor = theme.cardColor;
+
+      final newChartData = jsonEncode({
+        'chart': {
+          'type': 'bar',
+          'backgroundColor': colorToHex(blockBackgroundColor),
+          'marginRight': 10,
+        },
+        'title': {
+          'text': 'Disk Usage',
+          "style": { 
+          "color":colorToHex(textColor),
+          "text-alig": "left",
+          },
+        },
+        'xAxis': {
+          'categories': ['MediaGB', 'RootGB', 'Documents', 'Downloads'],
+          'title': {
+            'text': null,
+          },
+          'labels': {
+            'style': {
+              'color': colorToHex(textColor),
+              
+            }
+          }
+        },
+        'yAxis': {
+          'min': 0,
+          'title': {
+            'text': 'GB',
+            'align': 'high',
+            'style': {
+              'color': colorToHex(textColor),
+            }
+          },
+          'labels': {
+            'style': {
+              'color': colorToHex(textColor),
+            }
+          }
+        },
+        'series': [
+          {
+            'name': 'Kullanım',
+            'data': [
+               {
+                'y': diskSpace['MediaGB'],
+                'color': '#33a29d',
+              },
+              {
+                'y': diskSpace['RootGB'],
+                'color': '#544fc5', 
+              },
+              {
+                'y': diskSpace['Documents'],
+                'color': '#fe9d00',
+              },
+              {
+                'y': diskSpace['Downloads'],
+                'color': '#fe6a35',
+              }
+            ],
+            'colorByPoint': true,
+            'showInLegend': false,
+            'dataLabels': {
+              'enabled': true,
+              'color': colorToHex(textColor),
+            }
+          },
+        ],
+        'plotOptions': {
+          'series': {
+            'animation': {
+              'duration': 2000,
+            },
+            'dataLabels': {
+              'color': colorToHex(textColor),
+            }
+          },
+        },
+      });
+
+      // Grafik verilerini güncelle
+      setState(() {
+        chartData = newChartData;
+      });
+    }
+  }
+
+  String colorToHex(Color color) => '#${color.value.toRadixString(16).substring(2).padLeft(6, '0')}';
 
   @override
   Widget build(BuildContext context) {
-    String chartData = jsonEncode({
-      'chart': {
-        'type': 'bar',
-        'backgroundColor': 'transparent',
-        "marginRight": 10,
-      },
-      'title': {
-        'text': '',
-      },
-      'xAxis': {
-        'categories': diskData.keys.toList(),
-        'title': {
-          'text': null,
-        },
-      },
-      'yAxis': {
-        'min': 0,
-        'title': {
-          'text': 'GB',
-          'align': 'high',
-        },
-      },
-      'series': [
-        {
-          'name': 'Kullanım',
-          'data': diskData.values.toList(),
-          'colorByPoint': true,
-          'showInLegend': false,
-        },
-      ],
-      'plotOptions': {
-        'series': {
-          'animation': {
-            'duration': 2000,
-          },
-        },
-      },
-    });
-
-     return ConstsBox(
-      child: HighCharts(
-        data: chartData,
-        size: Size.infinite, // Use responsive size from ResponsiveBox
-      ),
+    return ConstsBox(
+      child: chartData.isEmpty
+          ? Center(child: CircularProgressIndicator())
+          : HighCharts(
+              data: chartData,
+              size: Size.infinite,
+            ),
     );
   }
 }

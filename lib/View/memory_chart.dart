@@ -2,7 +2,6 @@ import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
 import 'package:high_chart/high_chart.dart';
-
 import '../consts_box.dart';
 
 class MemoryChart extends StatefulWidget {
@@ -33,8 +32,8 @@ class _MemoryChartState extends State<MemoryChart> {
     timer = Timer.periodic(duration, (Timer t) {
       var random = Random();
       setState(() {
-        memoryUsage = random.nextDouble() * 100; // 0-16000 MB arası değer
-      });
+        memoryUsage = random.nextDouble() * 100;
+         });
     });
   }
 
@@ -55,8 +54,11 @@ class _MemoryChartState extends State<MemoryChart> {
         "verticalAlign": "middle",
         "y": 30, // Y ekseninde daha aşağıda konumlandırma
         "style": {
-          "fontSize": "20px",
-          "color": "#000"
+          
+          "color": "#000",
+          "font-size":"14px",
+           "opacity":"0.4", 
+          "text-alig": "center",
         }
       },
       "pane": {
@@ -66,7 +68,7 @@ class _MemoryChartState extends State<MemoryChart> {
         "endAngle": 360,
         "background": {
         "backgroundColor": "transparent",
-          "innerRadius": "60%",
+          "innerRadius": "80%",
           "outerRadius": "100%",
           "shape": "arc"
         }
@@ -86,10 +88,11 @@ class _MemoryChartState extends State<MemoryChart> {
             "enabled": true,
             "borderWidth": 0,
             "useHTML": true,
-            "format": "<div style='text-align:center'><span style='font-size:22px'>{y} MB</span></div>"
+             format: "<div style='text-align:center'><span style='font-size:22px;'>{y} MB</span></div>"
+                           
             },
             "linecap": "round",
-          "innerRadius": "60%", // İç yarıçap
+          "innerRadius": "80%", // İç yarıçap
           "outerRadius": "100%"
           
         },
