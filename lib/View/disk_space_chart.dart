@@ -55,8 +55,10 @@ class _DiskSpaceChartState extends State<DiskSpaceChart> {
         "verticalAlign": "middle",
         "y": 30, // Y ekseninde daha aşağıda konumlandırma
         "style": {
-          "fontSize": "20px",
-          "color": "#000"
+          "color": "#000",
+          "font-size":"14px",
+           "opacity":"0.4", 
+          "text-alig": "center",
         }
       },
       "pane": {
@@ -66,7 +68,7 @@ class _DiskSpaceChartState extends State<DiskSpaceChart> {
         "endAngle": 360,
         "background": {
           "backgroundColor": "transparent",
-          "innerRadius": "60%",
+          "innerRadius": "80%",
           "outerRadius": "100%",
           "shape": "arc"
         }
@@ -89,7 +91,7 @@ class _DiskSpaceChartState extends State<DiskSpaceChart> {
             "format": "<div style='text-align:center'><span style='font-size:22px'>{y} GB </span></div>"
             },
             "linecap": "round",
-          "innerRadius": "60%", // İç yarıçap
+          "innerRadius": "80%", 
           "outerRadius": "100%"
           
         },
