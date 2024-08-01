@@ -1,8 +1,8 @@
 import 'dart:async';
-import 'dart:math';
 import 'dart:convert';
 import 'package:flutter/material.dart';
 import 'package:high_chart/high_chart.dart';
+import 'package:http/http.dart' as http;
 
 import '../consts_box.dart';
 
@@ -14,12 +14,13 @@ class DiskOperationsChart extends StatefulWidget {
 }
 
 class _DiskOperationsChartState extends State<DiskOperationsChart> {
-  List<Map<String, dynamic>> diskOperationsData = [];
+  String chartData = '';
   Timer? timer;
 
   @override
   void initState() {
     super.initState();
+    fetchDiskOperationsData();
     startTimer();
   }
 
@@ -31,72 +32,102 @@ class _DiskOperationsChartState extends State<DiskOperationsChart> {
 
   void startTimer() {
     const duration = Duration(seconds: 2);
-    timer = Timer.periodic(duration, (Timer t) {
-      var random = Random();
-      int read = random.nextInt(100);
-      int write = random.nextInt(100);
+    timer = Timer.periodic(duration, (Timer t) => fetchDiskOperationsData());
+  }
+
+  Future<void> fetchDiskOperationsData() async {
+    final url = 'https://demo-live-data.highcharts.com/instance-details.json';
+    final response = await http.get(Uri.parse(url));
+    if (response.statusCode == 200) {
+      final data = json.decode(response.body);
+      final currentInstance = data[0];
+      final diskDetails = currentInstance['Details'];
+
+      final theme = Theme.of(context);
+      final textColor = theme.textTheme.bodyLarge?.color ?? Colors.black;
+      final blockBackgroundColor = theme.cardColor;
+
+      final newChartData = jsonEncode({
+        'chart': {
+          'type': 'column',
+          'backgroundColor': colorToHex(blockBackgroundColor),
+        },
+        'title': {
+          'text': 'Disk Operations',
+          'style': {
+            'color': colorToHex(textColor),
+          },
+        },
+        'xAxis': {
+          'type': 'datetime',
+          'title': {
+            'text': 'Time',
+            'style': {
+              'color': colorToHex(textColor),
+            },
+          },
+          'labels': {
+            'style': {
+              'color': colorToHex(textColor),
+            },
+          },
+        },
+        'yAxis': {
+          'title': {
+            'text': 'Operations',
+            'style': {
+              'color': colorToHex(textColor),
+            },
+          },
+          'labels': {
+            'style': {
+              'color': colorToHex(textColor),
+            },
+          },
+        },
+        'legend': {
+          'itemStyle': {
+            'color': colorToHex(textColor), 
+          },
+        },
+        'series': [
+          {
+            'name': 'Read',
+            'data': diskDetails.map((data) => [data['timestamp'], data['readOpt']]).toList(),
+            'color': '#33a29d',
+          },
+          {
+            'name': 'Write',
+            'data': diskDetails.map((data) => [data['timestamp'], data['writeOpt']]).toList(),
+            'color': '#544fc5', 
+          },
+        ],
+        'plotOptions': {
+          'series': {
+            'animation': {
+              'duration': 2000,
+            },
+          },
+        },
+      });
 
       setState(() {
-        var currentTime = DateTime.now().millisecondsSinceEpoch;
-        diskOperationsData.add({
-          'time': currentTime,
-          'read': read,
-          'write': write,
-        });
-
-        // Limit the length of the data list
-        if (diskOperationsData.length > 20) {
-          diskOperationsData.removeAt(0);
-        }
+        chartData = newChartData;
       });
-    });
+    }
   }
+
+  String colorToHex(Color color) => '#${color.value.toRadixString(16).substring(2).padLeft(6, '0')}';
 
   @override
   Widget build(BuildContext context) {
-    String chartData = jsonEncode({
-      'chart': {
-        'type': 'column',
-        'backgroundColor': 'transparent',
-      },
-      'title': {
-        'text': 'Disk Operations',
-      },
-      'xAxis': {
-        'type': 'datetime',
-        'title': {
-          'text': 'Time',
-        },
-      },
-      'yAxis': {
-        'title': {
-          'text': 'Operations',
-        },
-      },
-      'series': [
-        {
-          'name': 'Read',
-          'data': diskOperationsData.map((data) => [data['time'], data['read']]).toList(),
-        },
-        {
-          'name': 'Write',
-          'data': diskOperationsData.map((data) => [data['time'], data['write']]).toList(),
-        },
-      ],
-      'plotOptions': {
-        'series': {
-          'animation': {
-            'duration': 2000,
-          },
-        },
-      },
-    });
-
     return ConstsBox(
-      child: HighCharts(
-        data: chartData,
-        size: Size.infinite, // Use responsive size from ResponsiveBox
-      ),
+      child: chartData.isEmpty
+          ? Center(child: CircularProgressIndicator())
+          : HighCharts(
+              data: chartData,
+              size: Size.infinite,
+            ),
     );
   }
 }

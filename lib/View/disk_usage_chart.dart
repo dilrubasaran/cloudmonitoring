@@ -47,7 +47,7 @@ class _DiskUsageChartState extends State<DiskUsageChart> {
       final textColor = theme.textTheme.bodyLarge?.color ?? Colors.black;
       final blockBackgroundColor = theme.cardColor;
 
-      final newChartData = jsonEncode({
+      final newChartData = jsonEncode({  
         'chart': {
           'type': 'bar',
           'backgroundColor': colorToHex(blockBackgroundColor),
