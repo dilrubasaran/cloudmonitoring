@@ -19,12 +19,12 @@ class Zone extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("Zone:", style: TextStyle(color:textColor)),
+          Text("Zone:", style: TextStyle(color:textColor,fontSize: 18, fontWeight: FontWeight.w700)),
           Row(
             children: [
               Icon(Icons.location_on, color: iconColor),
               SizedBox(width: 5),
-              Text("eu-west-2b", style: TextStyle(color:textColor))
+              Text("eu-west-2b", style: TextStyle(color:textColor, fontSize:12, fontWeight: FontWeight.w700))
             ],
           ),
         ],

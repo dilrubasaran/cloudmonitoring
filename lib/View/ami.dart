@@ -21,12 +21,12 @@ class AMI extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("AMI:", style: TextStyle(color: textColor)),
+          Text("AMI:", style: TextStyle(color: textColor, fontSize: 18, fontWeight: FontWeight.w700)),
           Row(
             children: [
               Icon(Icons.storage, color:iconColor),
               SizedBox(width: 5),
-              Text("ami-0123456", style: TextStyle(color:textColor))
+              Text("ami-0123456", style: TextStyle(color:textColor,fontSize:12, fontWeight: FontWeight.w700))
             ],
           ),
         ],

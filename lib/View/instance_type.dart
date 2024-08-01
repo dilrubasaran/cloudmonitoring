@@ -1,4 +1,5 @@
 import 'package:flutter/material.dart';
+import 'package:flutter_svg/flutter_svg.dart';
 
 class InstanceType extends StatelessWidget {
   @override
@@ -21,15 +22,20 @@ class InstanceType extends StatelessWidget {
         children: [
           Text(
             "Instance type:",
-            style: TextStyle(color: textColor), // Temadan gelen yazı rengi
+            style: TextStyle(color: textColor,fontSize: 18, fontWeight: FontWeight.w700),
           ),
           Row(
             children: [
-              Icon(Icons.memory, color: iconColor), // Sabit bir renk kullanıldı
+              SvgPicture.network(
+                'https://www.highcharts.com/samples/graphics/dashboards/cloud-monitoring/instance-ico.svg',
+                color: iconColor, // SVG ikonu temadan gelen renk ile renklendirin
+                height: 24.0, // İkonun boyutunu belirleyin
+                width: 24.0,
+              ),
               SizedBox(width: 5),
               Text(
                 "t2.micro",
-                style: TextStyle(color: textColor), // Temadan gelen yazı rengi
+                style: TextStyle(color: textColor,fontSize:12, fontWeight: FontWeight.w700), 
               ),
             ],
           ),

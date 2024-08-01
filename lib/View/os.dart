@@ -18,12 +18,12 @@ class OS extends StatelessWidget {
       child: Column(
         crossAxisAlignment: CrossAxisAlignment.start,
         children: [
-          Text("OS:", style: TextStyle(color: textColor)),
+          Text("OS:", style: TextStyle(color: textColor,fontSize: 18, fontWeight: FontWeight.w700)),
           Row(
             children: [
               Icon(Icons.laptop, color: iconColor),
               SizedBox(width: 5),
-              Text("Amazon Linux", style: TextStyle(color: textColor))
+              Text("Amazon Linux", style: TextStyle(color: textColor,fontSize:12, fontWeight: FontWeight.w700))
             ],
           ),
         ],
