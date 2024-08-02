@@ -1,3 +1,5 @@
+// network chart created with line chart 
+
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
@@ -37,7 +39,7 @@ class _NetworkChartState extends State<NetworkChart> {
       var currentTime = DateTime.now().millisecondsSinceEpoch;
 
       setState(() {
-        // Yeni veri ekle
+        
         networkInData.add({
           'x': currentTime,
           'y': random.nextInt(1000),
@@ -48,7 +50,7 @@ class _NetworkChartState extends State<NetworkChart> {
           'y': random.nextInt(1000),
         });
 
-        // Sadece son 20 değeri tutmak için eski verileri kaldır
+        
         if (networkInData.length > 20) {
           networkInData.removeAt(0);
         }

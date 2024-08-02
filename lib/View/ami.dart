@@ -1,3 +1,5 @@
+//Ami block on screen
+
 import 'package:flutter/material.dart';
 
 class AMI extends StatelessWidget {

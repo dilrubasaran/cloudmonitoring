@@ -2,7 +2,7 @@ import 'dart:convert';
 import 'package:http/http.dart' as http;
 
 Future<Map<String, dynamic>> fetchData() async {
-  final response = await http.get(Uri.parse('https:///demo-live-data.highcharts.com'));
+  final response = await http.get(Uri.parse('https://sm.aeyazilim.com'));
 
   if (response.statusCode == 200) {
     final List<dynamic> responseData = json.decode(response.body);

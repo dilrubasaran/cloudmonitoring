@@ -1,3 +1,5 @@
+// disk space  chart created with solidgauge
+
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
@@ -53,7 +55,7 @@ class _DiskSpaceChartState extends State<DiskSpaceChart> {
       "subtitle": {
         "text": "Disk Space",
         "verticalAlign": "middle",
-        "y": 30, // Y ekseninde daha aşağıda konumlandırma
+        "y": 30, 
         "style": {
           "color": "#000",
           "font-size":"14px",
@@ -61,6 +63,7 @@ class _DiskSpaceChartState extends State<DiskSpaceChart> {
           "text-alig": "center",
         }
       },
+       // * Customize the ring structure
       "pane": {
         "center": ["50%", "50%"],
         "size": "80%",

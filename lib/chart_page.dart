@@ -1,3 +1,5 @@
+// blocks are called which from page 
+
 import 'package:cloudmonitoring/Theme/theme.dart';
 import 'package:flutter/material.dart';
 import 'View/ami.dart';

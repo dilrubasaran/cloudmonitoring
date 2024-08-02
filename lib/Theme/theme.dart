@@ -1,5 +1,6 @@
 import 'package:flutter/material.dart';
-
+ 
+ // ekran yapısındaki light theme
 final lightTheme = ThemeData(
   brightness: Brightness.light,
   primarySwatch: Colors.blue,
@@ -17,6 +18,7 @@ final lightTheme = ThemeData(
   dividerColor: Colors.grey[300],
 );
 
+// ekran yapısındaki dark theme
 final darkTheme = ThemeData(
   brightness: Brightness.dark,
   primarySwatch: Colors.blue,

@@ -1,3 +1,5 @@
+// instances tables  on screen 
+
 import 'package:flutter/material.dart';
 
 class InstancesTable extends StatelessWidget {
@@ -7,7 +9,7 @@ class InstancesTable extends StatelessWidget {
     final screenWidth = MediaQuery.of(context).size.width;
     final isMobile = screenWidth < 600;
 
-    // Tema renkleri
+    // Theme colors
     Color backgroundColor = theme.cardColor;
     Color textColor = theme.textTheme.bodyLarge?.color ?? Colors.black;
 

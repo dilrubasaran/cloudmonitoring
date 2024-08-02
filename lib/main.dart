@@ -1,3 +1,5 @@
+ // chart page ara called which from page 
+
 import 'package:flutter/material.dart';
 import 'Theme/theme.dart';
 import 'chart_page.dart';

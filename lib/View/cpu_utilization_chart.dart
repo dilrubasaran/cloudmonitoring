@@ -1,3 +1,4 @@
+//cpu utilization chart created with line chart 
 import 'dart:async';
 import 'dart:convert';
 import 'dart:math';
@@ -41,7 +42,7 @@ class _CpuUtilizationChartState extends State<CpuUtilizationChart> {
           'y': random.nextInt(100),
         });
 
-        // Sadece son 20 değeri tutmak için eski verileri kaldır
+      
         if (cpuData.length > 20) {
           cpuData.removeAt(0);
         }

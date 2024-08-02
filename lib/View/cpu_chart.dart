@@ -1,3 +1,5 @@
+// cpu chart created with solidgauge
+
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
@@ -14,6 +16,7 @@ class CpuChart extends StatefulWidget {
 class _CpuChartState extends State<CpuChart> {
   double cpuUsage = 0.0;
   Timer? timer;
+
 
   @override
   void initState() {
@@ -32,7 +35,7 @@ class _CpuChartState extends State<CpuChart> {
     timer = Timer.periodic(duration, (Timer t) {
       var random = Random();
       setState(() {
-        cpuUsage = random.nextDouble() * 100; // 0-100 arası yüzdelik değer
+        cpuUsage = random.nextDouble() * 100; 
       });
     });
   }
@@ -41,12 +44,12 @@ class _CpuChartState extends State<CpuChart> {
   Widget build(BuildContext context) {
     final theme = Theme.of(context);
 
-    // Tema renklerini al
+    // get theme colors
     Color backgroundColor = theme.scaffoldBackgroundColor;
     Color blockColor = theme.cardColor;
     Color textColor = theme.textTheme.bodyLarge?.color ?? Colors.black;
 
-    // Renkleri JSON formatına dönüştür
+    // color to json 
     String backgroundColorJson = _colorToJson(backgroundColor);
     String blockColorJson = _colorToJson(blockColor);
     String textColorJson = _colorToJson(textColor);
@@ -72,6 +75,7 @@ class _CpuChartState extends State<CpuChart> {
           "text-align": "center"
         }
       },
+      // * Customize the ring structure
       "pane": {
         "center": ["50%", "50%"],
         "size": "80%",
@@ -93,9 +97,9 @@ class _CpuChartState extends State<CpuChart> {
         "lineWidth": 0,
         "tickPositions": [],
         "stops": [
-          [0.1, '#33A29D'],
-          [0.5, '#DDDF0D'],
-          [0.9, '#DF5353']
+          [0.1, '#33A29D'],  // * grren 
+          [0.5, '#DDDF0D'],  // * yellow
+          [0.9, '#DF5353']   // * red 
         ]
       },
       "plotOptions": {

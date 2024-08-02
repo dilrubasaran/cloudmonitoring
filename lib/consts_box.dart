@@ -1,3 +1,5 @@
+// responsive structure 
+
 import 'package:flutter/material.dart';
 
 class ConstsBox extends StatelessWidget {

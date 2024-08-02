@@ -1,3 +1,4 @@
+// memory  chart created with solidgauge
 import 'dart:async';
 import 'dart:math';
 import 'package:flutter/material.dart';
@@ -61,6 +62,7 @@ class _MemoryChartState extends State<MemoryChart> {
           "text-alig": "center",
         }
       },
+       // * Customize the ring structure
       "pane": {
         "center": ["50%", "50%"],
         "size": "80%",
